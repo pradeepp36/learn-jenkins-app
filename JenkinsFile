@@ -1,13 +1,7 @@
 pipeline {
     agent any
     stages {
-        stage('w/o Docker') {
-            steps {
-                echo 'Hello World'
-            }
-        }
-
-        stage('w Docker') {
+        stage('Build') {
             agent {
                 docker {
                     image 'node:18-alpine'
@@ -19,7 +13,14 @@ pipeline {
                     node --version
                     npm --version
                     npm ci
-                    npm start
+                    npm run build
+                '''
+            }
+        }
+        stage('Test') {
+            steps{
+                sh '''
+                    echo 'Test Stage'
                 '''
             }
         }
